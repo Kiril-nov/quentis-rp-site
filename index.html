@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quentis RP — GTA IV Role-Play</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:#0b1020;
+      color:#fff;
+      overflow-x:hidden;
+    }
+
+    /* ===== HERO ===== */
+    .hero{
+      position:relative;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      background:
+        linear-gradient(rgba(5,10,20,.82), rgba(5,10,20,.92)),
+        url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:radial-gradient(circle at right center, rgba(0,87,183,.22), transparent 40%),
+                 radial-gradient(circle at left center, rgba(255,215,0,.14), transparent 35%);
+      pointer-events:none;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar{
+      position:sticky;
+      top:0;
+      z-index:20;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:20px 40px;
+      background:rgba(8,12,22,.72);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    .logo{
+      font-size:1.7rem;
+      font-weight:800;
+      letter-spacing:.5px;
+    }
+
+    .logo span:first-child{ color:#0057b7; }
+    .logo span:last-child{ color:#ffd700; }
+
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    .nav-links a{
+      color:#e8eefc;
+      text-decoration:none;
+      font-weight:600;
+      transition:.2s ease;
+    }
+
+    .nav-links a:hover{
+      color:#ffd700;
+    }
+
+    .nav-btn{
+      background:linear-gradient(135deg,#0057b7,#ffd700);
+      color:#08111f !important;
+      padding:10px 18px;
+      border-radius:12px;
+      font-weight:800;
+      box-shadow:0 10px 24px rgba(0,87,183,.35);
+    }
+
+    /* ===== CONTENT ===== */
+    .hero-content{
+      position:relative;
+      z-index:1;
+      width:min(1180px,100%);
+      margin:0 auto;
+      padding:90px 24px 120px;
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:42px;
+      align-items:center;
+    }
+
+    .hero-text h1{
+      font-size:clamp(2.6rem,5vw,4.8rem);
+      line-height:1.05;
+      margin-bottom:22px;
+      font-weight:800;
+    }
+
+    .flag-text{
+      background:linear-gradient(90deg,#0057b7 0%,#0057b7 50%,#ffd700 50%,#ffd700 100%);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+
+    .hero-text p{
+      font-size:1.08rem;
+      line-height:1.75;
+      color:#d6def3;
+      margin-bottom:28px;
+      max-width:680px;
+    }
+
+    .hero-buttons{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      padding:15px 22px;
+      border-radius:14px;
+      font-weight:800;
+      text-decoration:none;
+      transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid transparent;
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg,#0057b7,#1d7ef2);
+      color:#fff;
+      box-shadow:0 14px 28px rgba(0,87,183,.34);
+    }
+
+    .btn-secondary{
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      border-color:rgba(255,255,255,.16);
+    }
+
+    .btn:hover{
+      transform:translateY(-2px);
+    }
+
+    .hero-card{
+      position:relative;
+      z-index:1;
+      background:rgba(12,18,32,.78);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:24px;
+      padding:28px;
+      backdrop-filter:blur(16px);
+      box-shadow:0 24px 48px rgba(0,0,0,.32);
+    }
+
+    .hero-card img{
+      width:100%;
+      height:280px;
+      object-fit:cover;
+      border-radius:18px;
+      margin-bottom:22px;
+    }
+
+    .server-status{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:16px;
+      font-weight:700;
+    }
+
+    .dot{
+      width:12px;
+      height:12px;
+      border-radius:50%;
+      background:#2be675;
+      box-shadow:0 0 14px rgba(43,230,117,.7);
+    }
+
+    .status-grid{
+      display:grid;
+      gap:12px;
+      color:#d9e4ff;
+      font-size:.98rem;
+    }
+
+    .status-grid strong{
+      color:#fff;
+    }
+
+    .hero-card .btn{
+      width:100%;
+      margin-top:22px;
+    }
+
+    /* ===== SECTIONS ===== */
+    section{
+      width:min(1180px,100%);
+      margin:0 auto;
+      padding:88px 24px;
+    }
+
+    .section-title{
+      font-size:2.2rem;
+      margin-bottom:14px;
+      font-weight:800;
+    }
+
+    .section-subtitle{
+      color:#b8c5e4;
+      line-height:1.7;
+      margin-bottom:34px;
+      max-width:760px;
+    }
+
+    /* ===== ABOUT ===== */
+    .about-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:18px;
+    }
+
+    .feature{
+      background:#121a2f;
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:20px;
+      padding:22px;
+    }
+
+    .feature h3{
+      margin-bottom:10px;
+      font-size:1.1rem;
+    }
+
+    .feature p{
+      color:#c6d3f1;
+      line-height:1.6;
+      font-size:.95rem;
+    }
+
+    /* ===== INSTALL ===== */
+    .install{
+      background:#10182d;
+      border-radius:28px;
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .steps{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:18px;
+      margin-top:26px;
+    }
+
+    .step{
+      background:#0f1628;
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:20px;
+      padding:22px;
+    }
+
+    .step-number{
+      width:42px;
+      height:42px;
+      border-radius:12px;
+      background:linear-gradient(135deg,#0057b7,#ffd700);
+      color:#08111f;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      margin-bottom:16px;
+    }
+
+    .step h3{
+      margin-bottom:10px;
+    }
+
+    .step p{
+      color:#c6d3f1;
+      line-height:1.6;
+      margin-bottom:14px;
+      font-size:.95rem;
+    }
+
+    .step a{
+      color:#ffd700;
+      text-decoration:none;
+      font-weight:700;
+    }
+
+    /* ===== GALLERY ===== */
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:18px;
+      margin-top:28px;
+    }
+
+    .gallery img{
+      width:100%;
+      height:220px;
+      object-fit:cover;
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,.08);
+      transition:transform .25s ease;
+    }
+
+    .gallery img:hover{
+      transform:translateY(-4px);
+    }
+
+    /* ===== COMMUNITY ===== */
+    .community{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:22px;
+      align-items:start;
+    }
+
+    .community-card{
+      background:#121a2f;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:22px;
+      padding:26px;
+    }
+
+    .community-card p{
+      color:#c6d3f1;
+      line-height:1.7;
+      margin-bottom:18px;
+    }
+
+    .community-list{
+      display:grid;
+      gap:12px;
+      color:#dce6ff;
+      font-size:.96rem;
+    }
+
+    .community-list div{
+      padding:12px 14px;
+      border-radius:14px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.05);
+    }
+
+    .telegram-box{
+      background:linear-gradient(135deg, rgba(0,87,183,.22), rgba(255,215,0,.12));
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:22px;
+      padding:26px;
+    }
+
+    .telegram-box p{
+      color:#d6def3;
+      line-height:1.7;
+      margin-bottom:18px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer{
+      border-top:1px solid rgba(255,255,255,.08);
+      padding:34px 24px 44px;
+      text-align:center;
+      color:#aab7d7;
+      background:#0a0f1d;
+    }
+
+    @media (max-width: 960px){
+      .hero-content{
+        grid-template-columns:1fr;
+        padding-top:72px;
+      }
+
+      .community{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 720px){
+      .navbar{
+        padding:16px 18px;
+        flex-direction:column;
+        gap:14px;
+      }
+
+      .nav-links{
+        justify-content:center;
+      }
+
+      .hero-text h1{
+        font-size:2.6rem;
+      }
+
+      .hero-buttons{
+        flex-direction:column;
+      }
+
+      .btn{
+        width:100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="hero" id="top">
+
+    <nav class="navbar">
+      <div class="logo">
+        <span>Quentis</span> <span>RP</span>
+      </div>
+
+      <div class="nav-links">
+        <a href="#downloads">Завантаження</a>
+        <a href="#top">Головна</a>
+        <a href="#shop">Ігровий магазин</a>
+        <a href="#forum">Форум</a>
+        <a href="#servers">Сервери</a>
+        <a href="#install">Почати грати</a>
+        <a class="nav-btn" href="download/QuentisRPLauncher.exe" download>Скачування лаунчеру</a>
+      </div>
+    </nav>
+
+    <div class="hero-content">
+
+      <div class="hero-text">
+        <h1><span class="flag-text">GTA IV — Quentis RP</span></h1>
+
+        <p>
+          Грай у <strong>Role-Play</strong> на найбільшому українському <strong>IV:MP</strong> проєкті.
+          Наш проєкт поєднує найкраще з <strong>РП, ДМ та дрифт режимів</strong>.
+          Встановлюй гру, завантажуй лаунчер і приєднуйся до пригоди —
+          <strong>тисячі гравців онлайн чекають на тебе!</strong>
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#about" class="btn btn-primary">Дізнатися про Quentis RP</a>
+          <a href="#install" class="btn btn-secondary">Почати грати</a>
+        </div>
+      </div>
+
+      <aside class="hero-card" id="servers">
+        <img src="https://images.unsplash.com/photo-1542751110-97427bbecf20?q=80&w=1200&auto=format&fit=crop" alt="Quentis RP GTA IV">
+
+        <div class="server-status">
+          <span class="dot"></span>
+          <span>Моніторинг сервера: <strong>Quentis RP</strong></span>
+        </div>
+
+        <div class="status-grid">
+          <div><strong>Онлайн:</strong> 1 383 / 2500 гравців</div>
+          <div><strong>IP-адреса:</strong> s1.quentis4.com.ua:22005</div>
+          <div><strong>Режими:</strong> Role-Play • DeathMatch • Drift</div>
+        </div>
+
+        <a href="#install" class="btn btn-primary">Підключитися до сервера</a>
+      </aside>
+
+    </div>
+  </header>
+
+  <main>
+
+    <section id="about">
+      <h2 class="section-title">Дізнатися про Quentis RP</h2>
+      <p class="section-subtitle">
+        Quentis RP — це український сервер на базі <strong>GTA IV та IV:MP</strong>,
+        де гравці можуть жити повноцінним віртуальним життям, вступати у фракції,
+        працювати, заробляти гроші, брати участь у дрифт-змаганнях і PvP-подіях.
+      </p>
+
+      <div class="about-grid">
+        <div class="feature">
+          <h3>🇺🇦 Український Role-Play</h3>
+          <p>Сучасний RP-сервер з українською спільнотою та атмосферою справжнього міста.</p>
+        </div>
+
+        <div class="feature">
+          <h3>🚔 Фракції та роботи</h3>
+          <p>Поліція, медики, бізнеси, служби міста та десятки способів заробітку для кожного гравця.</p>
+        </div>
+
+        <div class="feature">
+          <h3>🏎️ Дрифт та змагання</h3>
+          <p>Спеціальні траси, турніри та щотижневі події для любителів швидкості та красивих заносів.</p>
+        </div>
+
+        <div class="feature">
+          <h3>⚔️ Динамічний онлайн</h3>
+          <p>Активні гравці, регулярні івенти, система нагород та постійний розвиток сервера.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="install" class="install">
+      <h2 class="section-title">Почати грати — інструкція по встановленню</h2>
+      <p class="section-subtitle">
+        Виконай кілька простих кроків, щоб підключитися до сервера Quentis RP через IV:MP.
+      </p>
+
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Купити GTA IV</h3>
+          <p>Придбай ліцензійну версію <strong>Grand Theft Auto IV</strong> у Steam та встанови гру на свій ПК.</p>
+          <a href="https://store.steampowered.com/?l=ukrainian" target="_blank" rel="noopener noreferrer">Відкрити Steam →</a>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Встановити IV:MP</h3>
+          <p>Завантаж мультиплеєрний клієнт <strong>IV:MP</strong>, який дозволяє підключатися до серверів GTA IV Role-Play.</p>
+          <a href="https://iv-mp.eu/" target="_blank" rel="noopener noreferrer">Скачати IV:MP →</a>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Скачати лаунчер Quentis RP</h3>
+          <p>Після встановлення гри та IV:MP завантаж офіційний лаунчер проєкту та запусти його від імені адміністратора.</p>
+          <a href="download/QuentisRPLauncher.exe" download>Скачати лаунчер →</a>
+        </div>
+
+        <div class="step">
+          <div class="step-number">4</div>
+          <h3>Підключитися до сервера</h3>
+          <p>Відкрий IV:MP або лаунчер Quentis RP та підключися до сервера за адресою:</p>
+          <a href="javascript:void(0)">s1.quentis4.com.ua:22005</a>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Скріншоти спільноти</h2>
+      <p class="section-subtitle">
+        Надсилайте свої скріншоти через форму нижче — щосуботи ми вибираємо найкращий ігровий момент сервера та нагороджуємо переможців призами: <strong>вірти, авто або VIP-статус</strong>.
+      </p>
+
+      <div class="gallery">
+        <img src="https://images.unsplash.com/photo-1486572788966-cfd3df1f5b42?q=80&w=1200&auto=format&fit=crop" alt="Нічний Ліберті-Сіті GTA IV">
+
+        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1200&auto=format&fit=crop" alt="Дрифт у GTA IV Liberty City">
+
+        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200&auto=format&fit=crop" alt="Автомобільна зустріч Quentis RP">
+
+        <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1200&auto=format&fit=crop" alt="Поліцейський патруль GTA IV RP">
+      </div>
+    </section>
+
+    <section>
+      <div class="community">
+
+        <div class="community-card">
+          <h2 class="section-title">Спільнота Quentis RP</h2>
+          <p>
+            Ми регулярно проводимо <strong>івенти, дрифт-турніри, RP-сюжетні події та конкурси скріншотів</strong>.
+            Найкращі гравці отримують внутрішньоігрові нагороди та потрапляють у галерею сервера.
+          </p>
+
+          <div class="community-list">
+            <div>📸 Щотижневий конкурс скріншотів</div>
+            <div>🏁 Дрифт-чемпіонати Liberty City</div>
+            <div>🚔 RP-патрулі та фракційні події</div>
+            <div>🎁 Розіграші VIP та автомобілів</div>
+          </div>
+        </div>
+
+        <div class="telegram-box">
+          <h2 class="section-title">Telegram проєкту</h2>
+          <p>
+            Підписуйся на офіційний Telegram-канал Quentis RP, щоб отримувати новини про оновлення,
+            технічні роботи, івенти та розіграші серед гравців.
+          </p>
+
+          <a class="btn btn-primary" href="https://t.me/quentis4rp" target="_blank" rel="noopener noreferrer">
+            Telegram: @quentis4rp
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="downloads">
+      <h2 class="section-title">Завантаження</h2>
+      <p class="section-subtitle">
+        Усі необхідні файли для гри на сервері Quentis RP.
+      </p>
+
+      <div class="about-grid">
+
+        <div class="feature">
+          <h3>🎮 GTA IV</h3>
+          <p>Ліцензійна версія гри для запуску мультиплеєра IV:MP.</p>
+          <a class="btn btn-secondary" href="https://store.steampowered.com/?l=ukrainian" target="_blank" rel="noopener noreferrer">Steam</a>
+        </div>
+
+        <div class="feature">
+          <h3>🌐 IV:MP Client</h3>
+          <p>Офіційний мультиплеєрний клієнт для підключення до серверів GTA IV.</p>
+          <a class="btn btn-secondary" href="https://iv-mp.eu/" target="_blank" rel="noopener noreferrer">IV:MP</a>
+        </div>
+
+        <div class="feature">
+          <h3>🚀 Quentis RP Launcher</h3>
+          <p>Лаунчер проєкту з автоматичним оновленням файлів сервера.</p>
+          <a class="btn btn-primary" href="download/QuentisRPLauncher.exe" download>Скачати .exe</a>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="shop">
+      <h2 class="section-title">Ігровий магазин</h2>
+      <p class="section-subtitle">
+        Тут можна розмістити донат-магазин Quentis RP: VIP-статуси, автомобілі, кастомні номери, скін-паки та інші внутрішньоігрові бонуси.
+      </p>
+
+      <div class="about-grid">
+        <div class="feature">
+          <h3>💎 VIP Bronze</h3>
+          <p>Базові бонуси, додаткові слоти транспорту та щоденні нагороди.</p>
+        </div>
+
+        <div class="feature">
+          <h3>🏎️ Преміум авто</h3>
+          <p>Ексклюзивні автомобілі для дрифту, перегонів та RP-подорожей містом.</p>
+        </div>
+
+        <div class="feature">
+          <h3>🎨 Кастомізація</h3>
+          <p>Унікальні скіни, номери, вініл-паки та декоративні предмети для персонажа.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="forum">
+      <h2 class="section-title">Форум</h2>
+      <p class="section-subtitle">
+        Розділ для заявок у фракції, скарг, пропозицій, технічної підтримки та спілкування гравців Quentis RP.
+      </p>
+
+      <div class="about-grid">
+        <div class="feature">
+          <h3>📝 Заявки у фракції</h3>
+          <p>Подання анкет до поліції, медиків, бізнесів та інших організацій сервера.</p>
+        </div>
+
+        <div class="feature">
+          <h3>🛠️ Технічна підтримка</h3>
+          <p>Допомога з лаунчером, IV:MP, підключенням до сервера та відновленням акаунта.</p>
+        </div>
+
+        <div class="feature">
+          <h3>💬 Пропозиції та новини</h3>
+          <p>Обговорення оновлень, ідей для сервера та майбутніх івентів спільноти.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2026 Quentis RP — Український GTA IV IV:MP Role-Play проєкт</p>
+  </footer>
+
+</body>
+</html>
